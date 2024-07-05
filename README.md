@@ -1,93 +1,37 @@
-# Face Segmentation and Speaker Diarization Project
+프로젝트 개요
+이 프로젝트는 영상에서 얼굴과 신체 포즈를 분석하여 화자를 식별하고, 해당 화자에게 하이라이트를 적용하는 시스템입니다. YOLO, Swin Transformer, Mediapipe, Pyannote 등의 다양한 최신 기술을 통합하여 구현되었습니다.
 
-## 프로젝트 개요
-이 프로젝트는 비디오에서 화자를 식별하고, 얼굴, 포즈, 손을 인식하여 비디오를 분석 및 시각화하는 프로젝트입니다. YOLO 모델을 사용한 사람 인식, Swin Transformer를 통한 이미지 처리, Mediapipe를 이용한 랜드마크 추출, Pyannote를 이용한 화자 다이어리제이션 등 다양한 기술이 사용되었습니다.
+설치 및 실행 방법
+1. 필수 라이브러리 설치
+2. 다음 명령어를 사용하여 필요한 라이브러리를 설치합니다:
 
-## 사용된 기술
-- Python
-- OpenCV
-- Mediapipe
-- YOLOv8
-- Swin Transformer
-- Pyannote.audio
-- MoviePy
-- Hugging Face Hub
-- Concurrent Futures
+![image](https://github.com/zodia8393/Speaker_Highlignt/assets/83521479/fe753529-40dd-47eb-9b04-5eea09c0ae92)
 
-## 프로젝트 구조
-├── main.py
-├── utils
-│ ├── audio_processing.py
-│ ├── huggingface_login.py
-│ ├── logging_setup.py
-│ ├── mediapipe_solutions.py
-│ ├── pyannote_pipeline.py
-│ ├── swin_model.py
-│ ├── utils.py
-│ ├── video_processing.py
-│ └── yolo_model.py
-└── README.md
+2. 프로젝트 구조
+프로젝트 디렉토리는 다음과 같은 구조를 가집니다:
+![image](https://github.com/zodia8393/Speaker_Highlignt/assets/83521479/bffbffb1-3d6d-4feb-8b3d-e9a70717161d)
 
+3. 환경 변수 설정
+Hugging Face 인증 토큰을 utils/huggingface_login.py 파일에 설정합니다:
+![image](https://github.com/zodia8393/Speaker_Highlignt/assets/83521479/ecd4cc42-025b-4b83-9132-b82bc71d33e8)
 
-## 설치 방법
-1. Python 3.8 이상 버전을 설치합니다.
-2. 가상 환경을 생성합니다.
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   .\venv\Scripts\activate  # Windows
+4. YOLO 모델 경로 설정
+YOLO 모델 경로를 utils/yolo_model.py 파일에 설정합니다:
+![image](https://github.com/zodia8393/Speaker_Highlignt/assets/83521479/4f578491-d4e5-40e7-8a87-07fa00f0f438)
 
-필수 패키지를 설치합니다.
-pip install -r requirements.txt
+5. 비디오 파일 경로 설정
+분석할 비디오 파일 경로를 main.py 파일에 설정합니다:
+![image](https://github.com/zodia8393/Speaker_Highlignt/assets/83521479/da756ae8-dbe1-4036-9ead-e60791d9bcdb)
 
-실행 방법
-Hugging Face 로그인 토큰을 준비합니다.
-main.py 파일을 실행합니다.
+6. 실행
+다음 명령어를 사용하여 메인 스크립트를 실행합니다:
+![image](https://github.com/zodia8393/Speaker_Highlignt/assets/83521479/3678a781-1ab7-4150-8a35-06649b16d067)
 
-python main.py
+기능 설명
+화자 식별: Pyannote를 사용하여 비디오에서 화자를 식별합니다.
+얼굴 및 포즈 추출: Mediapipe를 사용하여 얼굴 랜드마크와 신체 포즈를 추출합니다.
+하이라이트 적용: 식별된 화자에게 YOLO를 통해 하이라이트를 적용합니다.
+오디오 처리: MoviePy를 사용하여 비디오에서 오디오를 추출하고, 화자 정보와 함께 최종 비디오를 생성합니다.
 
-주요 모듈 및 함수 설명
-main.py
-프로젝트의 메인 스크립트로, 전체 파이프라인을 실행합니다.
-
-utils/logging_setup.py
-로깅 설정을 위한 모듈입니다.
-
-setup_logger(): 로거를 설정하고 반환합니다.
-utils/huggingface_login.py
-Hugging Face에 로그인하기 위한 모듈입니다.
-
-login_to_huggingface(token): Hugging Face에 로그인합니다.
-utils/pyannote_pipeline.py
-Pyannote Pipeline을 로드하고 설정합니다.
-
-load_pyannote_pipeline(token): Pyannote Pipeline을 로드하고 설정합니다.
-utils/yolo_model.py
-YOLO 모델을 로드하고 설정합니다.
-
-load_yolo_model(model_path): YOLO 모델을 로드합니다.
-utils/swin_model.py
-Swin Transformer 모델을 로드하고 설정합니다.
-
-load_swin_model(): Swin Transformer 모델을 로드합니다.
-utils/mediapipe_solutions.py
-Mediapipe 솔루션을 로드합니다.
-
-load_mediapipe_solutions(): Mediapipe 솔루션을 로드합니다.
-utils/video_processing.py
-비디오 프레임 처리 관련 함수가 포함되어 있습니다.
-
-process_frame(frame, width, height): 프레임을 전처리합니다.
-resize_frame(frame, width, height): 프레임의 크기를 조정합니다.
-utils/audio_processing.py
-오디오 처리 관련 함수가 포함되어 있습니다.
-
-extract_audio(input_video_path, duration, output_audio_path): 비디오에서 오디오를 추출합니다.
-merge_audio_with_video(video_path, audio_path, output_video_path): 비디오와 오디오를 병합합니다.
-utils/utils.py
-유틸리티 함수가 포함되어 있습니다.
-
-get_mouth_aspect_ratio(landmarks): 입의 비율을 계산합니다.
-get_movement_ratio(landmarks): 랜드마크의 움직임 비율을 계산합니다.
-check_hand_over_mouth(face_landmarks, hand_landmarks): 손이 입 위에 있는지 확인합니다.
-apply_highlight(frame, mask, color, alpha): 프레임에 하이라이트를 적용합니다.
+문의
+프로젝트와 관련된 문의는 이메일 (chohj_1019@naver.com)로 연락 주시기 바랍니다.
